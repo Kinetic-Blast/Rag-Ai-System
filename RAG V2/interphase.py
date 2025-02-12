@@ -42,7 +42,6 @@ def list_models(url_of_api:str):
         print(f"Failed to retrieve models. Status code: {response.status_code}")
 
 
-list_models("http://192.168.50.61:11434/v1/models")
 
 
 
