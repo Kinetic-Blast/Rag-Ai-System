@@ -17,8 +17,3 @@ This project implements a Retrieval-Augmented Generation (RAG) system that enhan
 3. Retrieved information is formatted and provided as context to the AI model.  
 4. The AI generates a response, integrating both retrieved knowledge and general reasoning.  
 
-## Issues
-
-- The system works, but `gemma-2b-it` produces relatively short responses and may need to be replaced with a more capable model.  
-- Some tuning is required, but as a first implementation, it functions well. Future improvements will focus on enhancing response quality and retrieval accuracy.  
-
