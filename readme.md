@@ -17,3 +17,9 @@ This project implements a Retrieval-Augmented Generation (RAG) system that enhan
 3. Retrieved information is formatted and provided as context to the AI model.  
 4. The AI generates a response, integrating both retrieved knowledge and general reasoning.  
 
+#V1
+It works, but it's manual, and I didn't like it.
+
+#V2
+##WIP
+This version will be more modular and include an interface system that allows for plug-and-play functionality. I will also be creating a version that supports Discord bot usage. And makes use of api system
