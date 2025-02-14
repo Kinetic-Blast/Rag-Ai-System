@@ -1,7 +1,7 @@
 import sqlite3
 import numpy as np
 import requests
-import database_commands  # Import the database functions
+import os  # Import the database functions
 
 def get_query_embedding(query: str, url_of_api: str, model_name: str):
     """Get the embedding vector for a given query string."""
@@ -26,8 +26,12 @@ def find_similar_pages(db_name: str, query: str, url_of_api: str, model_name: st
     if query_embedding is None:
         return []
 
-    conn = sqlite3.connect(db_name)
-    cursor = conn.cursor()
+    try:
+        if os.path.exists(db_name):
+            conn = sqlite3.connect(db_name)
+        cursor = conn.cursor()
+    except:
+        return []
 
     # Retrieve pages but exclude pages from excluded books
     if focus_only:
@@ -60,21 +64,24 @@ def find_similar_pages(db_name: str, query: str, url_of_api: str, model_name: st
 
         # Compute similarity
         similarity = cosine_similarity(query_embedding, embedding)
-
-        results.append((page_id, book_id, page_number, similarity, text))
+        if similarity >= 0.6:
+            results.append([page_id, book_id, page_number, similarity, text])
 
     # Sort by similarity (highest first) and return top N
     results.sort(key=lambda x: x[3], reverse=True)
     return results[:top_n]
 
-def search_and_display_results(db_name: str, query: str, url_of_api: str, model_name: str, top_n: int = 10, focus_only: bool = False):
-    """Search for the most relevant pages and display them in a readable format."""
+def search_and_return_results(db_name: str, query: str, url_of_api: str, model_name: str, top_n: int = 10, focus_only: bool = False):
+    """Search for the most relevant pages and return them in a readable format."""
     top_matches = find_similar_pages(db_name, query, url_of_api, model_name, top_n, focus_only)
+    top_matches_data = []
+    for item in top_matches:
+        top_matches_data.append(item[4])
 
     if not top_matches:
         return None
 
-    return top_matches
+    return top_matches_data
 
 
 
